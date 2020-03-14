@@ -1,0 +1,81 @@
+{%load static %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <title> عرض الكتب</title>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href=""/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body dir="rtl">
+
+<div class="container">
+   <div style="margin-top: 10px;" class="row">
+   
+    <table style="text-align:right;" border="1" id="class_table" class="responsive-table table col-100">
+        <thead>
+           <tr>
+             <td colspan="12"><a href="{%url 'export-exist' %}">طباعه</a> </td>
+           </tr>
+            <tr style="background-color: #337ab7; font-weight: bold;color: white; ">
+                <td>اسم الكتاب</td>
+                <td>عدد الصفحات</td>
+                <td>سعره </td>
+                <td>التصنيف</td>
+                <td>المؤلف</td>
+                <td>رقم الطباعه</td>
+                <td>عدد النسخ</td>
+                <td>سنه الاصدار</td>
+                <td>عدد المجلدات</td>
+                <td>موقع الكتاب</td>
+                <td>المحقق</td>
+                <td>دار النشر</td>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            {%for item in books%}
+          <tr>
+          
+            <td>{{item.book_name}}</td>
+            <td>{{item.book_pages}}</td>
+            <td>{{item.book_price}}</td>
+            <td>{{item.category.category_name}}</td>
+            <td>{{item.author.author_name}}</td>
+            <td>{{item.print_number}}</td>
+            <td>{{item.no_of_copis}}</td>
+            <td>{{item.print_year|date:'d-m-Y'}}</a></td>
+            <td>{{item.book_folders}}</td>
+            <td>{{item.book_postion.position}}</td>
+            <td>{{item.questioner.questioner_name}}</td>
+            <td>{{item.publish_house.publish_name}}</td>
+            
+
+          
+         </tr>
+    
+          
+          
+         {%endfor%}
+          </tbody>
+
+
+    </table>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+crossorigin="anonymous"></script>
+</body>
+</html>

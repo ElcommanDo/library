@@ -1,0 +1,636 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <title>الصفحه الرئيسيه</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    
+    .pp li, .pp a{
+
+      right: 0px;
+      text-align: right;
+
+    }
+    .oo a{
+      margin-right: 10px;
+     
+    }
+    .ul li{
+      margin: 10px;
+
+    }
+    ul{
+      list-style: none;
+    }
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+    a {
+    text-decoration: none !important;
+}
+@import url(https://fonts.googleapis.com/earlyaccess/amiri.css);
+  /* font-family: 'Amiri', serif; */
+  *{
+      font-family: 'Amiri', serif !important;
+  }
+  body{
+    background-color:white;
+    background-image: url("{%static 'images/o.jpg' %}");
+  }
+  .col-sm-3{
+    float: right;
+  }
+  </style>
+</head>
+<body dir="rtl">
+  <nav class="navbar navbar-inverse visible-xs">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+      
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="{%url 'home' %}">لوحه التحكم</a></li>
+          <li><a href="{%url 'show_users' %}">المستخدمين </a></li>
+          <li><a href=" {%url 'show_members' %}">الاعضاء</a></li>
+         </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+<div class="container-fluid">
+  <div class="row content">
+    <div style="right: 0px; float: right;" class="col-sm-3 sidenav hidden-xs">
+      <br>
+      <img src="{%static 'images/o.jpg' %}" width="100%">
+      <ul style=" margin-right: 0px; margin-top: 10px;" class="nav nav-pills nav-stacked pp">
+        <li style="background-color: rgb(250, 173, 30); color: white;"><a href="{%url 'home' %}">لوحه التحكم</a></li>
+        <li><a href="{%url 'show_users' %}">المستخدمين </a></li>
+        <li><a href=" {%url 'show_members' %}">الاعضاء</a></li>
+      
+      </ul><br>
+      
+    </div>
+    
+    <div class="col-sm-9">
+      
+      <ul style="right: inherit; margin-top: 5px;" dir="rtl" class="messages">
+        {%if messages%}
+          {%for message in messages%}
+            
+               <div  class="alert alert-{{message.tags}}">
+    
+                    {{message}}
+                  </div>
+            
+          {%endfor%}
+      {%endif%}
+    </ul>
+      <div class="well oo" style="border: none; background-color:inherit ; color:black;">
+            <a class="nav-link btn btn-warning " href="{%url 'home' %}"> الرئيسيه <span class="sr-only">(current)</span></a>
+          {% if request.user.is_authenticated %}
+            <a class="nav-link btn btn-warning" href="{%url 'logout' %}">تسجيل خروج</a>
+          {% endif %}
+       
+      </div>
+   
+      <div class="row">
+        <div class="col-sm-3">
+          <a href="#" data-toggle="modal" data-target="#myModal4" class="btn btn-warning">
+          <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+            <h4>إضافه كتاب</h4>
+            <p style="color:rgb(250, 173, 30)" >1</p>
+          </div>
+        </a>
+        </div>
+        <div class="col-sm-3" class="btn btn-warning">
+          <a href="#"data-toggle="modal" data-target="#myModal6" class="btn btn-warning">
+          <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+            <h4>إضافه تصنيف</h4>
+            <p style="color:rgb(250, 173, 30)" >1</p>
+          </div>
+        </a>
+        </div>
+        <div class="col-sm-3">
+            <a href="#" data-toggle="modal" data-target="#myModal2"  class="btn btn-warning">
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4>إضافه مؤلف</h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+          <div class="col-sm-3">
+            <a href="#" data-toggle="modal" data-target="#myModal5" class="btn btn-warning" >
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4>إضافه محقق</h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+        
+          
+      </div><br>  
+      <div class="row">
+      
+        <div class="col-sm-3">
+          <a href="#" data-toggle="modal" data-target="#myModal3" class="btn btn-warning">
+          <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+            <h4>إضافه دار نشر</h4>
+            <p style="color:rgb(250, 173, 30)" >1</p>
+          </div>
+        </a>
+        </div>
+        <div class="col-sm-3">
+          <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#myModal8">
+          <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+            <h4>إضافه موقع كتب </h4>
+            <p style="color:rgb(250, 173, 30)" >1</p>
+          </div>
+        </a>
+        </div>
+       
+        
+          <div class="col-sm-3">
+            <a href="{%url 'books' %}" class="btn btn-warning">
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4>بحث عن كتاب </h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+          <div class="col-sm-3">
+            <a href="#" data-toggle="modal" data-target="#myModal66" class="btn btn-warning">
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4>اضافه عضو </h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+          
+      </div>
+          <br>
+      <div class="row">
+      
+        <div class="col-sm-3">
+            <a href="{% url 'existing_books' %}" class="btn btn-warning" >
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4>الكتب الموجوده</h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+         
+          <div class="col-sm-3" class="btn btn-warning">
+            <a href="{%url 'borrowed_books' %}" class="btn btn-warning">
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4>الكتب المستعاره</h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+          <div class="col-sm-3">
+            <a href="#" data-toggle="modal" data-target="#myModal99" class="btn btn-warning">
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4>استرداد كتاب</h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+          <div class="col-sm-3">
+            <a href="{%url 'orders' %}" class="btn btn-warning">
+            <div style=" background-color:rgb(250, 173, 30);color: white;" class="well">
+              <h4> طلبات الاستعاره </h4>
+              <p style="color:rgb(250, 173, 30)" >1</p>
+            </div>
+          </a>
+          </div>
+          
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div id="myModal99" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">استرداد كتاب  </h4>
+      </div>
+      <div class="modal-body">
+        <form action="{%url 'book_back' %}" dir="rtl" method="post">
+          {%csrf_token%}
+        <label>اسم الكتاب</label>
+          <input placeholder="ابحث عن الكتاب بالحرف او بالاسم " list="books" required="true" name=book_name type="text" class="form-control">
+         <datalist id="books">
+          {%for book in books%}
+         <option value="{{book.book_name}}">{{book.book_name}}</option>  
+          {%endfor%}
+         
+        </datalist>
+          <br>
+          <label>اسم العضو المستعير</label>
+          <input placeholder="ابحث عن العضو بالحرف او بالاسم " list="members" required="true" name="member" type="text" class="form-control">
+         <datalist id="members">
+          {%for mem in members%}
+         <option value="{{mem.user.username}}">{{mem.user.username}}</option>  
+          {%endfor%}
+         
+        </datalist>
+          <br>
+          
+         <div class="modal-footer">
+        <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button style="float:left;" type="submit" class="btn btn-primary" >استرداد</button>
+
+        </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="myModal66" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">اضافة عضو  </h4>
+      </div>
+      <div class="modal-body">
+        <form action="{%url 'create_member' %}" dir="rtl" method="post">
+          {%csrf_token%}
+         <label>اسم العضو</label>
+          <input placeholder="اسم العضو " required="true" name="username" type="text" class="form-control">
+          <br>
+          <label>عنوان العضو</label>
+          <input placeholder="عنوان العضو " required="true" name="address" type="text" class="form-control">
+          <br>
+          <label>رقم هاتف العضو</label>
+          <input placeholder="رقم الهاتف" required="true" name="phone" type="text" class="form-control">
+          <br>
+          <label>البريد الالكترونى</label>
+          <input placeholder="البريد الالكترونى " required="true" name="email" type="email" class="form-control">
+          <br>
+       
+        <label>كلمه المرور</label>
+         <input placeholder="ادخل كلمه مرور قويه " required="true" name="password" type="password" class="form-control">
+         <br>
+         <div class="modal-footer">
+        <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button style="float:left;" type="submit" class="btn btn-primary" >اضافه</button>
+
+        </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">اضافة مؤلف</h4>
+      </div>
+      <div class="modal-body">
+        <form action=" {% url 'add_author' %}" dir="rtl" method="post">
+          {%csrf_token%}
+          <label>ادخل اسم المؤلف</label>
+          <input placeholder="اسم المؤلف " required="true" name="author" type="text" class="form-control">
+           <br>
+          <div class="modal-footer">
+        <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button style="float:left;" type="submit" class="btn btn-success" >اضافه</button>
+
+        </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<div id="myModal3" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">اضافة دار نشر</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{%url 'add_publish' %}" dir="rtl" method="post">
+          {%csrf_token%}
+          <label>ادخل اسم دار النشر</label>
+          <input placeholder="اسم دار النشر " required="true" name="publish" type="text" class="form-control">
+           <br>
+          <div class="modal-footer">
+        <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button style="float:left;" type="submit" class="btn btn-success" >اضافه</button>
+
+        </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<div id="myModal4" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button  type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">اضافة كتاب</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{%url 'add_book' %}" enctype="multipart/form-data" dir="rtl" method="post">
+          {%csrf_token%}
+     <label>اسم الكتاب </label>
+          <input placeholder="اسم الكتاب بالكامل " required="true" name="book_name" type="text" class="form-control">
+         <br>
+         <div class="form-group">
+  
+          <label>التصنيف </label>
+         <input required="true"  class="form-control"placeholder="اكتب اول حرف من اسم التصنيف" list="cats"  name="category" />
+         
+         <datalist id="cats">
+            {%for item in categories%}
+            <option value="{{item.category_name}}">{{item.category_name}}</option>
+            {%endfor%}  
+         </datalist>
+      </div>
+    
+         <div class="form-group">
+
+          <label>المؤلف </label>
+         <input  class="form-control"placeholder="اكتب اول حرف من اسم المؤلف" list="auths"  name="author" />
+         
+         <datalist id="auths">
+            {%for item in authors%}
+            <option value="{{item.author_name}}">{{item.author_name}}</option>
+            {%endfor%}  
+         </datalist>
+      </div>  
+      <div class="form-group">
+  
+        <label>المحقق </label>
+       <input  class="form-control"placeholder="اكتب اول حرف من اسم المحقق" list="quest"  name="questioner" />
+       
+       <datalist id="quest">
+          {%for item in quest%}
+          <option value="{{item.questioner_name}}">{{item.questioner_name}}</option>
+          {%endfor%}  
+       </datalist>
+    </div>
+    
+  
+      <div class="form-group">
+  
+          <label>دار النشر </label>
+         <input  class="form-control"placeholder="اكتب اول حرف من اسم دار النشر" list="pubs"  name="publish" />
+         
+         <datalist id="ques">
+            {%for item in publishes%}
+            <option value="{{item.publish_name}}">{{item.publish_name}}</option>
+            {%endfor%}  
+         </datalist>
+      </div>
+      <label>مالك الكتاب </label>
+      <input placeholder=" عدد صفحات الكتاب"  name="owner" type="text" class="form-control">
+      <br>
+   
+         <label>عدد صفحات الكتاب</label>
+         <input placeholder=" عدد صفحات الكتاب"  name="pages" type="text" class="form-control">
+         <br>
+         <label>رقم الاصدار</label>
+         <input   name="print_number" placeholder="ادخل رقم الاصدار" type="number" class="form-control">
+         <br>
+ 
+        
+         <label>سنه الاصدار</label>
+         <input   name="print_year" type="number" class="form-control">
+         <br>
+         <label>عدد المجلدات </label>
+         <input   name="folders" type="numbe" class="form-control">
+         <br>
+         <label>رقم المجلد</label>
+         <input   name="folder_number" type="numbe" class="form-control">
+         <br>
+          <label>عدد النسخ المتاحه </label>
+         <input   name="copies" type="number" class="form-control">
+         <br>
+
+ 
+              
+      <div class="form-group">
+
+        <label> سعر الكتاب</label>
+       <br>
+        <input required="true" class="form-control" type="number" name="price">
+        <div class="form-group">
+
+          <label>موقع الكتاب </label>
+         
+         <select class="form-control" name="position">
+            {%for item in positions%}
+            <option value="{{item.position}}">{{item.position}}</option>
+            {%endfor%}  
+         </select>
+      </div>
+            
+      </div>
+         <label>صوره الغلاف</label>
+         <input name="image" type="file" class="form-control">
+         <br>
+         <label> رابط تحميل</label>
+         <input placeholder="ادخل لينك جوجل درايف للكتاب"  name="link" type="text" class="form-control">
+         <br>
+
+
+      
+      <label>ملاحظات</label> <br>
+      <textarea name="obs" class="form-control" placeholder="اختيارى"></textarea>
+
+         <div class="modal-footer">
+        <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button style="float:left;" type="submit" class="btn btn-success" >اضافه الكتاب</button>
+
+        </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<div id="myModal5" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">اضافة محقق او مترجم</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{%url 'add_questioner' %}" dir="rtl" method="post">
+          {%csrf_token%}
+          <label>اسم المحقق او المترجم</label>
+          <input placeholder="اسم المحقق او المترجم" required="true" name="questioner" type="text" class="form-control">
+        <br>
+          <div class="modal-footer">
+        <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button style="float:left;" type="submit" class="btn btn-success" >اضافه</button>
+
+        </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<div id="myModal6" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <form action="{%url 'add_category' %}" dir="rtl" method="post">
+            {%csrf_token%}
+            <label for="ice-cream-choice">ادخل اسم التصنيف</label>
+            <input required="true" class="form-control"  name="category" />
+            
+            <br>
+            <div class="modal-footer">
+              <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button style="float:left;" type="submit" class="btn btn-success" >اضافه</button>
+      
+              </div>
+              </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<div id="myModal7" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <form action="" dir="rtl" method="post">
+          {%csrf_token%}
+          <label for="ice-cream-choice">اختر اسم الحاله</label>
+          <input required="true" class="form-control" list="ice-cream-flavors" id="ice-cream-choice" name="case_name" />
+          
+          <datalist id="ice-cream-flavors">
+             {%for item in cases%}
+             <option value="{{item.case_name}}">{{item.case_name}}</option>
+             {%endfor%}  
+          </datalist>
+          <br>
+          <div class="modal-footer">
+            <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button style="float:left;" type="submit" class="btn btn-success" >تعطيل</button>
+    
+            </div>
+            </form>
+      </div>
+      
+        
+
+    </div>
+
+  </div>
+</div>
+<div id="myModal8" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+          <form action="{%url 'add_position' %}" dir="rtl" method="post">
+              {%csrf_token%}
+              <label >ادخل  حرف او اسم الموقع</label>
+              <input required="true" class="form-control"  name="position" />
+              
+              <br>
+              <div class="modal-footer">
+                <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button style="float:left;" type="submit" class="btn btn-success" >اضافه</button>
+        
+                </div>
+                </form>
+        </div>
+  
+      </div>
+  
+    </div>
+  </div>
+  
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+
+</body>
+</html>

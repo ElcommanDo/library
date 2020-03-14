@@ -1,0 +1,103 @@
+{%load static %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <title>طلبات الاستعاره</title>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href=""/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body dir="rtl">
+
+<div class="container">
+    <div class="well oo" style="background-color:inherit ; color:black;">
+        <a class="nav-link btn btn-primary " href="{%url 'home' %}"> الرئيسيه <span class="sr-only">(current)</span></a>
+      {% if request.user %}
+        <a class="nav-link btn btn-primary" href="{%url 'logout' %}">تسجيل خروج</a>
+      {% endif %}
+   
+  </div>
+  <ul style="right: inherit; margin-top: 5px;" dir="rtl" class="messages">
+    {%if messages%}
+      {%for message in messages%}
+        
+           <div  class="alert alert-{{message.tags}}">
+
+                {{message}}
+              </div>
+        
+      {%endfor%}
+  {%endif%}
+</ul>
+    <div dir="rtl" class="row">
+<h3>جميع الطلبات </h3>
+</div>
+   <div class="row">
+   
+    <table style="text-align:right;" id="class_table" class="responsive-table table col-100">
+        <thead>
+            <tr style="background-color: #337ab7; font-weight: bold;color: white; ">
+                <td>اسم الكتاب</td>
+                <td>تاريخ الطلب </td>
+                <td>اسم العضو </td>
+                <td> مده الاستعاره </td>
+                <td> حاله الكتاب</td>
+                {%if request.user.is_superuser%}
+                <td>قبول</td>
+                <td>رفض</td>
+                {%endif%}
+                
+            </tr>
+        </thead>
+        <tbody>
+            {%for item in orders%}
+          <tr>
+          
+            <td>{{item.book.book_name}}</a></td>
+            <td>{{item.date}}</td>
+             
+             <td>{{item.member.user.username}}</td>
+             <td>{{item.duration}}  </td>
+                
+             <td>  
+             {%if item.book.available %}
+             <h4 style="color: green;">متاح</h4>
+            {%else%}
+            <h4 style="color: red;">غير متاح</h4>
+            {%endif%}
+            </td>
+            {%if request.user.is_superuser%}
+            <td><a href="{%url 'accept_order' item.id %}"  class="btn btn-success">قبول</a></td>
+            <td><a href="{%url 'delete_order' item.id %}" class="btn btn-danger">حذف</a></td>
+            {%endif%}
+         
+         </tr>
+         {%empty%}
+         <tr>
+             <td style=" text-align: center; color:white; background-color: red;" colspan="6">
+                 <h4>لا يوجد طلبات استعاره </h4>
+             </td>
+         </tr>
+    
+                     {%endfor%}
+          </tbody>
+
+
+    </table>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+crossorigin="anonymous"></script>
+</body>
+</html>

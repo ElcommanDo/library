@@ -1,0 +1,136 @@
+{%load static %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <title> معرض الكتب</title>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href=""/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body dir="rtl">
+
+<div class="container">
+    <div class="well oo" style="background-color:inherit ; color:black;">
+     <a href="{% url 'logout' %}"class="btn btn-danger">تسجيل خروج</a>
+  </div>
+  <ul style="right: inherit; margin-top: 5px;" dir="rtl" class="messages">
+    {%if messages%}
+      {%for message in messages%}
+        
+           <div  class="alert alert-{{message.tags}}">
+
+                {{message}}
+              </div>
+        
+      {%endfor%}
+  {%endif%}
+</ul>
+      <div style="margin-top: 10px;;" dir="rtl" class="row">
+          <div style="float: right;"  class="col-md-1">
+            <label>بحث  عن كتاب</label>
+          </div>
+          <div style="float: right;" class="col-md-3">
+
+          
+        <form method="POST">
+            {%csrf_token%}
+            <div style="display: inline-block;" class="form-group">
+                
+                <input name="book_name" class="form-control" type="text" placeholder="ادخل اسم الكتاب او حرف من اسمه">
+                
+            </div>
+            <div style="float:left;">
+                <button type="submit" class="btn btn-primary">بحث</button>
+            </div>    
+        </form>
+        </div>
+        
+      </div>
+    <div dir="rtl" class="row">
+<h3>جميع الكتب </h3>
+</div>
+   <div class="row">
+   
+    <table style="text-align:right;" id="class_table" class="responsive-table table col-100">
+        <thead>
+            <tr style="background-color: #337ab7; font-weight: bold;color: white; ">
+                <td>غلاف الكتاب</td>
+                <td>اسم الكتاب</td>
+                <td>سعره </td>
+                <td>التصنيف</td>
+                <td> حاله الكتاب</td>
+                <td>طلب إستعاره</td>                
+            </tr>
+        </thead>
+        <tbody>
+            {%for item in books%}
+          <tr>
+            <td><a {%ifequal item.book_image '' %} href="#"{%else%} href="{{item.book_image.url}}"{%endifequal%} target="_blank"><img {%ifequal item.book_image '' %}src="{%static 'images/o.jpg' %}"{%else%} src="{{item.book_image.url}}"{%endifequal%} width="80px"></a></td>
+            <td><a href="{%url 'book_details' item.id %}">{{item.book_name}}</a></td>
+            <td>{{item.book_price}}</td>
+            <td>{{item.category.category_name}}</td>
+            <td>
+            {%if item.available %}
+             <h4 style="color: green;">متاح</h4>
+            {%else%}
+            <h4 style="color: red;">غير متاح</h4>
+            {%endif%}
+            </td>
+            <td><a href="#"data-toggle="modal" data-target="#myModal8{{item.id}}"  class="btn btn-success">استعاره</a></td>
+            <div id="myModal8{{item.id}}" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button  type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">تعديل  بيانات العضو</h4>
+                  </div>
+                  <div class="modal-body">
+                      <form action="{%url 'borrow_process' item.id %}" dir="rtl" method="post">
+                          {%csrf_token%}
+                       
+                        <label> مده الاستعاره</label>
+                         <input placeholder="ادخل عدد ايام الاستعاره مثال 10 " required="true" name="duration" type="number" class="form-control">
+                         <br>
+                         <div class="modal-footer">
+                        <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button style="float:left;" type="submit" class="btn btn-primary" >استعاره</button>
+                
+                        </div>
+                        </form>
+              </div>
+            
+            </div>
+            
+            </div>
+            </div>
+            
+            
+        </tr>
+    
+          
+         {%endfor%}
+          </tbody>
+
+
+    </table>
+</div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+crossorigin="anonymous"></script>
+</body>
+</html>

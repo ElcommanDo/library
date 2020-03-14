@@ -1,0 +1,257 @@
+{%load static %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <title> عرض الكتب</title>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href=""/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body dir="rtl">
+
+<div class="container">
+    <div class="well oo" style="background-color:inherit ; color:black;">
+        <a class="nav-link btn btn-primary " href="{%url 'home' %}"> الرئيسيه <span class="sr-only">(current)</span></a>
+      {% if request.user %}
+        <a class="nav-link btn btn-primary" href="{%url 'logout' %}">تسجيل خروج</a>
+      {% endif %}
+   
+  </div>
+  <ul style="right: inherit; margin-top: 5px;" dir="rtl" class="messages">
+    {%if messages%}
+      {%for message in messages%}
+        
+           <div  class="alert alert-{{message.tags}}">
+
+                {{message}}
+              </div>
+        
+      {%endfor%}
+  {%endif%}
+</ul>
+      <div style="margin-top: 10px;;" dir="rtl" class="row">
+          <div style="float: right;"  class="col-md-1">
+            <label>بحث  عن كتاب</label>
+          </div>
+          <div style="float: right;" class="col-md-3">
+
+          
+        <form method="POST">
+            {%csrf_token%}
+            <div style="display: inline-block;" class="form-group">
+                
+                <input name="book_name" class="form-control" type="text" placeholder="ادخل اسم الكتاب او حرف من اسمه">
+                
+            </div>
+            <div style="float:left;">
+                <button type="submit" class="btn btn-primary">بحث</button>
+            </div>    
+        </form>
+        </div>
+        
+      </div>
+    <div dir="rtl" class="row">
+<h3>جميع الكتب </h3>
+</div>
+   <div class="row">
+   
+    <table style="text-align:right;" id="class_table" class="responsive-table table col-100">
+        <thead>
+          <tr>
+            <td colspan="12"><a href="{%url 'export-all' %}">تصدير الى اكسيل</a> </td>
+          </tr>
+            <tr style="background-color: #337ab7; font-weight: bold;color: white; ">
+                <td>اسم الكتاب</td>
+                <td>التصنيف</td>
+                <td>المؤلف</td>
+                <td> المحقق </td>
+                <td> دار النشر </td>
+                <td>حاله الكتاب</td>
+                
+                {%if request.user.is_superuser%}
+                <td>تعديل</td>
+                <td>حذف</td>
+                {%endif%}
+                
+            </tr>
+        </thead>
+        <tbody>
+            {%for item in books%}
+          <tr>
+          
+            <td><a href="{%url 'book_details' item.id %}">{{item.book_name}}</a></td>
+            <td>{{item.category.category_name}}</td>
+            <td>{{item.author.author_name}}</td>
+            <td>{{item.questioner.questioner_name}}</td>
+            <td>{{item.publish_house.publish_name}}</td>
+            
+            <td>
+            {%if item.available %}
+             <h4 style="color: green;">متاح</h4>
+            {%else%}
+            <h4 style="color: red;">غير متاح</h4>
+            {%endif%}
+            </td>
+            {%if request.user.is_superuser%}
+            <td><a href="#" data-toggle="modal" data-target="#myModal{{item.id}}" class="btn btn-warning">تعديل</a></td>
+            <td><a href="{%url 'delete_book' item.id %}" class="btn btn-danger">حذف</a></td>
+            {%endif%}
+         
+         </tr>
+    
+              <div id="myModal{{item.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+              
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button  type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">اضافة كتاب</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form action="{%url 'update_book' item.id %}" enctype="multipart/form-data" dir="rtl" method="post">
+                        {%csrf_token%}
+                   <label>اسم الكتاب </label>
+                        <input value="{{item.book_name}}" placeholder="اسم الكتاب بالكامل " required="true" name="book_name" type="text" class="form-control">
+                       <br>
+                       <label>عدد صفحات الكتاب</label>
+                       <input value="{{item.book_pages}}" placeholder=" عدد صفحات الكتاب"  name="pages" type="text" class="form-control">
+                       <br>
+                       <label>رقم الاصدار</label>
+                       <input value="{{item.print_number}}"   name="print_number" placeholder="ادخل رقم الاصدار" type="number" class="form-control">
+                       <br>
+                       
+                       <label>سنه الاصدار</label>
+                       <input required="true" value="{{item.print_year}}"   name="print_year" type="number" class="form-control">
+                       <br>
+                    
+                    <div class="form-group">
+              
+                      <label> سعر الكتاب</label>
+                     <br>
+                      <input value="{{item.book_price}}" required="true" class="form-control" type="number" name="price">
+                          
+                    </div>
+                    <label>عدد النسخ المتاحه </label>
+                       <input value="{{item.no_of_copis}}"   name="copies" type="number" class="form-control">
+                       <br>
+              
+                    <label>عدد المجلدات </label>
+                       <input value="{{item.book_folders}}"   name="folders" type="numbe" class="form-control">
+                       <br>
+                       <label>رقم المجلد</label>
+                      <input value="{{item.folder_number}}"  name="folders_num" type="numbe" class="form-control">
+                      <br>
+                      <label> مالك الكتاب</label>
+                      <input value="{{item.book_owner}}"  name="owner" type="numbe" class="form-control">
+                      <br>
+                       <label>صوره الغلاف</label>
+                       <input  name="img" type="file" class="form-control">
+                       <br>
+                       <label> رابط تحميل</label>
+                       <input value="{{item.link}}" placeholder="ادخل لينك جوجل درايف للكتاب"  name="link" type="text" class="form-control">
+                       <br>
+              
+              
+                    <div class="form-group">
+              
+                      <label>المؤلف </label>
+                     <input value="{{item.author.author_name}}"  class="form-control"placeholder="اكتب اول حرف من اسم المؤلف" list="auths"  name="author" />
+                     
+                     <datalist id="auths">
+                        {%for item in authors%}
+                        <option value="{{item.author_name}}">{{item.author_name}}</option>
+                        {%endfor%}  
+                     </datalist>
+                  </div>  
+                  <div class="form-group">
+              
+                      <label>التصنيف </label>
+                     <input value="{{item.category.category_name}}" required="true"  class="form-control"placeholder="اكتب اول حرف من اسم التصنيف" list="cats"  name="category" />
+                     
+                     <datalist id="cats">
+                        {%for item in categories%}
+                        <option value="{{item.category_name}}">{{item.category_name}}</option>
+                        {%endfor%}  
+                     </datalist>
+                  </div>
+                  <div class="form-group">
+              
+                      <label>دار النشر </label>
+                     <input value="{{item.publish_house.publish_name}}"  class="form-control"placeholder="اكتب اول حرف من اسم دار النشر" list="pubs"  name="publish" />
+                     
+                     <datalist id="pubs">
+                        {%for item in publishes%}
+                        <option value="{{item.publish_name}}">{{item.publish_name}}</option>
+                        {%endfor%}  
+                     </datalist>
+                  </div>
+                  <label>متاح ام لا</label><br>
+                  {%if item.available%}
+                  <input type="checkbox" checked="true"   name="available" />
+                  {%else%}
+                  <input type="checkbox"    name="available" />
+                  
+                  {%endif%}
+                    <div class="form-group">
+              
+                      <label>المحقق </label>
+                     <input value="{{item.questioner.questioner_name}}"  class="form-control"placeholder="اكتب اول حرف من اسم المحقق" list="quest"  name="questioner" />
+                     
+                     <datalist id="quest">
+                        {%for item in quest%}
+                        <option value="{{item.questioner_name}}">{{item.questioner_name}}</option>
+                        {%endfor%}  
+                     </datalist>
+                  </div>
+                  <div class="form-group">
+              
+                      <label>موقع الكتاب </label>
+                    <input class="form-control" type="text" value="{{item.book_postion.position}}" readonly="true"> 
+                     <select class="form-control" name="position">
+                        {%for item in positions%}
+                        <option value="{{item.position}}">{{item.position}}</option>
+                        {%endfor%}  
+                     </select>
+                  </div>
+                  
+                    <label>ملاحظات</label> <br>
+                    <textarea  name="obs" class="form-control" placeholder="اختيارى">{{item.observations}}</textarea>
+              
+                       <div class="modal-footer">
+                      <button style="float:right;" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button style="float:left;" type="submit" class="btn btn-success" >تعديل الكتاب</button>
+              
+                      </div>
+                      </form>
+                </div>
+          
+              </div>
+          
+            </div>
+          </div>
+        
+          
+          
+         {%endfor%}
+          </tbody>
+
+
+    </table>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+crossorigin="anonymous"></script>
+</body>
+</html>
